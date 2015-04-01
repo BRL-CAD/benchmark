@@ -33,9 +33,9 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 ###
-# 
+#
 # Generic utility functions to be used elsewhere.
-# 
+#
 
 __author__ = 'Suryajith Chillara'
 __license__ = 'Modified BSD licence'
@@ -54,10 +54,10 @@ def convert_month_to_digit(month):
     @param month : Text version of month
     """
 
-    month_reference = {'Jan' : '01', 'Feb' : '02', 'Mar' : '03', 'Apr' : '04', 
+    month_reference = {'Jan' : '01', 'Feb' : '02', 'Mar' : '03', 'Apr' : '04',
                        'May' : '05', 'Jun' : '06', 'Jul' : '07', 'Aug' : '08',
                        'Sep' : '09', 'Oct' : '10', 'Nov' : '11', 'Dec' : '12'}
-    
+
     return month_reference[month]
 
 
@@ -65,44 +65,41 @@ def time_conversion(date_string):
     """
     Convert the date from a format posix date to MySQL date
     @param date_string: date in the posix date command form
-    """    
+    """
     date_split = date_string.split(' ')
     return "{year}-{mm}-{dd} {time}".format(year = date_split[5],
                                             mm = convert_month_to_digit(date_split[1]),
                                             dd = date_split[2],
                                             time = date_split[3])
 
-    
+
 
 def check_if_file_exists_on_disk(filepath):
     """
     Checks if the file exists on the disk.
     Could use os.path.exists() but some its safer to do that following.
+    Uses os.path.isfile().
     @param filepath: path to the file including the filename
     """
-    try :
-        with open(filepath) as f : 
-            return True
-    except :
-        return False  
+    return os.path.isfile(filepath)
 
-    
+
 def archive_file(path):
     """
     Move the file into the archive folder.
-    FIXME: 2 different files can contain same name as the process id could be the same. 
+    FIXME: 2 different files can contain same name as the process id could be the same.
     Should change the naming scheme in archives.
-    """    
+    """
     config = ConfigParser()
     config.read(['../project_config'])
-    
-    
+
+
     # shutil is the safest way to move files
-    shutil.move(os.path.join(os.getcwd(), path), 
+    shutil.move(os.path.join(os.getcwd(), path),
                 os.path.join(os.path.dirname('__FILE__'), '../',
                              config.get("locations", "archives")))
-    
-    
+
+
 
 def md5_for_file(file_desc):
     """
@@ -123,11 +120,11 @@ def sanitize_file(content):
     Sanitizing content for queries
     @param content: content of the file as in iterator
     """
-    
+
     new_content = []
     for line in content :
         new_content.append(re.sub("\"", "", line))
-        
+
     return "\n".join(new_content)
 
 # Local Variables:

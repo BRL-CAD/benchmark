@@ -13,7 +13,7 @@ v1_api = Api(api_name='v1')
 v1_api.register(PictureResource())
 
 urlpatterns = patterns('',
-    url(r'^$', lambda x: HttpResponseRedirect('/benchmark/upload/basic/plus/')),
+    url(r'^$', lambda x: HttpResponseRedirect('/upload/basic/plus/')),
     url(r'^basic/plus/$', BasicPlusVersionCreateView.as_view(), name='upload-basic-plus'),
     url(r'^delete/(?P<pk>\d+)$', PictureDeleteView.as_view(), name='upload-delete'),
     url(r'^view/$', PictureListView.as_view(), name='upload-view'),
